@@ -27,51 +27,47 @@ $codequiry = Codequiry{ApiKey: "YOUR_API_KEY"}
 ## Usage
 #### Getting account information
 ```php
-var accountInfo = cq.Account()
-print(accountInfo)
+$accountInfo = $codequiry->account()
+var_dump($accountInfo)
 ```
 #### Getting checks
 ```php
-var checks = cq.Checks()
-print(checks)
+$checks = $codequiry->checks()
+var_dump($checks)
 ```
 #### Creating checks (specify name and programming language)
 Examples: java, c-cpp, python, csharp, txt
 ```php
-var res = cq.CreateCheck("CheckNameHere", "java")
-print(res)
+$check = $codequiry->create_check("CheckNameHere", "java")
+var_dump($check)
 ```
 #### Uploading to a check (specify check_id and file (must be a zip file)) 
 ```php
-var res = cq.UploadFile("CHECK_ID", "./test.zip")
-print(res)
+$upload = $codequiry->upload_file("CHECK_ID", "./test.zip")
+var_dump($upload)
 ```
 #### Starting a check (specify check_id and if running database check or web check) 
 ```php
-var res = cq.startCheck("CHECK_ID")
-print(res)
+$check_status = $codequiry->start_check("CHECK_ID")
+var_dump($check_status)
 ```
 #### Getting a check information/status
 ```php
-var res = cq.getCheck("CHECK_ID", "./test.zip")
-print(res)
+$check = $codequiry->get_check("CHECK_ID")
+var_dump($check)
 ```
 #### Getting results overview
 ```php
-var res = cq.getOverview("CHECK_ID", "./test.zip")
-print(res)
+$overview = $codequiry->get_overview("CHECK_ID")
+var_dump($overview)
 ```
 #### Getting specific results of a submission
 ```php
-var res = cq.getResults("CHECK_ID", "SUBMISSION_ID")
-print(res)
+$results = $codequiry->get_results("CHECK_ID", "SID")
+var_dump($results)
 ```
 ## Realtime checking progress - SocketIO
 This is an example of the listener, you can call this after getting a check status or after starting a check (both will reutrn a job ID, which you can listen to). Here we will listen to specific CHECK_ID.
 ```php
-callback := func(data string) {
-    print("Update: " + data)
-}
-
-cq.checkListen(1, callback)
+$codequiry->check_listen("JOB_ID")
 ```
