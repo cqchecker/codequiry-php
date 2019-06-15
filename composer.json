@@ -1,0 +1,22 @@
+{
+  "name": "codequiry/codequiry-sdk",
+  "description": "Plagiarism and similarity detection software",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Author",
+      "email": "email@email.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.4.0",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "autoload":{
+    "psr-0":{
+    "codequiry":"src/"
+    }
+  }
+}
