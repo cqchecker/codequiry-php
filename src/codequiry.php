@@ -79,11 +79,18 @@ class Codequiry {
     }
 
     function upload_file($check_id, $file_path) {
-        $headers = array_filter(self::$BASE_HEADERS, function ($key) {
-            return strpos($key, 'Content-Type') !== 0;
-        }, ARRAY_FILTER_USE_KEY);
-        $headers[] = "Content-Type:multipart/form-data";
-        $file_contents = file_get_contents($file_path);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $file_path);
+        finfo_close($finfo);
+        if (!$mime_type) {
+            $mime_type = 'application/octet-stream';
+        }
+        $file = new CURLFile($file_path, $mime_type, basename($file_path));
+
+        $headers = array_filter(self::$BASE_HEADERS, function ($value) {
+            return strpos($value, 'Content-Type') === false;
+        });
+        $headers[] = "Content-Type: multipart/form-data";
         $fields = [
             "check_id" => $check_id,
             "file" => $file
