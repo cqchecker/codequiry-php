@@ -72,10 +72,10 @@ class Codequiry {
                 $server_response = fread($socket, 4096);
                 echo $server_response;
             }
+            stream_socket_shutdown($socket, STREAM_SHUT_RDWR);
         } else {
             echo 'Unable to establish socket connection to the server';
         }
-        stream_socket_shutdown($socket, STREAM_SHUT_RDWR);
     }
 
     function upload_file($check_id, $file_path) {
@@ -86,25 +86,26 @@ class Codequiry {
         $file_contents = file_get_contents($file_path);
         $fields = [
             "check_id" => $check_id,
-            "file" => $file_contents
+            "file" => $file
         ];
         $ch = curl_init();
         $options = array(
             CURLOPT_URL => self::$API_UPLOAD_PATH,
             CURLOPT_HEADER => true,
-            CURLOPT_POST => 1,
+            CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => $fields,
-            CURLOPT_INFILESIZE => strlen($file_contents),
             CURLOPT_RETURNTRANSFER => true
         );
         curl_setopt_array($ch, $options);
-        curl_exec($ch);
+        $response = curl_exec($ch);
         $result = "";
         if(!curl_errno($ch)) {
             $info = curl_getinfo($ch);
             if ($info['http_code'] == 200)
                 $result = "File uploaded successfully";
+            else
+                $result = $info;
         } else {
             $result = curl_error($ch);
         }
