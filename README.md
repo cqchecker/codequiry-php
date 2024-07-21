@@ -36,9 +36,9 @@ $checks = $codequiry->checks()
 var_dump($checks)
 ```
 #### Creating checks (specify name and programming language)
-Examples: java, c-cpp, python, csharp, txt
+Examples: javascript, java, c-cpp, python, csharp, txt
 ```php
-$check = $codequiry->create_check("CheckNameHere", "java")
+$check = $codequiry->create_check("CheckNameHere", "39")
 var_dump($check)
 ```
 #### Uploading to a check (specify check_id and file (must be a zip file)) 
